@@ -18,5 +18,5 @@ class PdfViewSet(ModelViewSet):
         cv = Converter(pdf_path)
         cv.convert(docx_path_to_be)
         cv.close()
-        docx_url = request.build_absolute_uri(docx_path_to_be)
+        docx_url = request.build_absolute_uri(os.path.join(settings.MEDIA_URL,'result.docx'))
         return Response({"DownloadLink":docx_url},status=HTTP_200_OK)
