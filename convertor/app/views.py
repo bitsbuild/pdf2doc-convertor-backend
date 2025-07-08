@@ -6,6 +6,7 @@ from django.conf import settings
 from pdf2docx import Converter
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
+from django.apps import apps
 class PdfViewSet(ModelViewSet):
     queryset = Pdf.objects.all()
     serializer_class = PdfSerializer
@@ -16,6 +17,8 @@ class PdfViewSet(ModelViewSet):
         for file_path in [pdf,docx]:
             if os.path.exists(file_path):
                 os.remove(file_path)
+        for model in apps.get_models():
+            model.objects.all().delete()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
