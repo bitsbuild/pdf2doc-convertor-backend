@@ -9,6 +9,7 @@ from rest_framework.status import HTTP_200_OK
 class PdfViewSet(ModelViewSet):
     queryset = Pdf.objects.all()
     serializer_class = PdfSerializer
+    http_method_names = ['post']
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
