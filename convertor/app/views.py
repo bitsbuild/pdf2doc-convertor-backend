@@ -11,13 +11,16 @@ class PdfViewSet(ModelViewSet):
     serializer_class = PdfSerializer
     http_method_names = ['post']
     def create(self, request, *args, **kwargs):
+        pdf = os.path.join(settings.MEDIA_ROOT,'file.pdf')
+        docx = os.path.join(settings.MEDIA_ROOT,'result.docx')
+        for file_path in [pdf,docx]:
+            if os.path.exists(file_path):
+                os.remove(file_path)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        pdf_path = os.path.join(settings.MEDIA_ROOT,'file.pdf')
-        docx_path_to_be = os.path.join(settings.MEDIA_ROOT,'result.docx')
-        cv = Converter(pdf_path)
-        cv.convert(docx_path_to_be)
+        cv = Converter(pdf)
+        cv.convert(docx)
         cv.close()
         docx_url = request.build_absolute_uri(os.path.join(settings.MEDIA_URL,'result.docx'))
         return Response({"DownloadLink":docx_url},status=HTTP_200_OK)
