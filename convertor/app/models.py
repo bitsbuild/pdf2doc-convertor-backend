@@ -1,3 +1,3 @@
 from django.db.models import Model,FileField
-class PDF(Model):
+class Pdf(Model):
     pdf = FileField(upload_to='')
