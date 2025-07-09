@@ -1,7 +1,10 @@
 # 📄 PDF to DOCX Converter API
 
-This is a simple Django REST Framework API that accepts a PDF file, converts it to a DOCX file, and returns a download link.  
+This is a simple Django REST Framework API that accepts a PDF file, converts it to a DOCX file, and directly returns the converted file for download.  
 The conversion is handled using `pdf2docx`.
+
+**Production URL:** [https://pdf-to-docx-cubg.onrender.com](https://pdf-to-docx-cubg.onrender.com)  
+**Repository:** [https://github.com/bitsbuild/pdf2doc-convertor-backend.git](https://github.com/bitsbuild/pdf2doc-convertor-backend.git)
 
 ---
 
@@ -10,7 +13,8 @@ The conversion is handled using `pdf2docx`.
 - Upload a single PDF file.
 - Converts the uploaded PDF to DOCX format.
 - Deletes any previous files and database records before processing a new file.
-- Returns a download link for the converted DOCX.
+- **Directly returns** the converted DOCX as a file response — no media URLs are exposed.
+- Production-ready with `DEBUG = False` and strict `ALLOWED_HOSTS`.
 
 ---
 
@@ -27,7 +31,9 @@ The conversion is handled using `pdf2docx`.
 
 ### Upload & Convert PDF
 
-**URL:** `/convert/pdf/`  
+**Production URL:**  
+`https://pdf-to-docx-cubg.onrender.com/convert/pdf/`
+
 **Method:** `POST`  
 **Request Body (multipart/form-data):**
 
@@ -35,13 +41,13 @@ The conversion is handled using `pdf2docx`.
 |-------|------|----------|-------------|
 | pdf   | File (PDF) | Yes | The PDF file to convert. |
 
-**Successful Response:**
+**Successful Response:**  
+Returns the generated `.docx` **directly** as a file download with content type:  
+```
 
-```json
-{
-  "DownloadLink": "http://localhost:8000/media/result.docx"
-}
-````
+application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+```
 
 ---
 
@@ -50,15 +56,16 @@ The conversion is handled using `pdf2docx`.
 * Only PDF files are allowed.
 * Each request deletes any existing uploaded PDF and generated DOCX.
 * All previous database entries are wiped on each request.
-* Uploaded files are saved as `file.pdf` and `result.docx` in the `MEDIA_ROOT`.
+* The generated DOCX is streamed directly — no public media files are exposed.
+* Production settings are secure with `DEBUG = False` and `ALLOWED_HOSTS` restricted to your Render domain.
 
 ---
 
 ## ⚠️ Security Considerations
 
-* This API automatically removes previous files and database entries.
-* Ensure `MEDIA_ROOT` is properly secured in production.
-* Use `whitenoise` or proper static file handling when deploying.
+* Uploaded files and output are served only through controlled file responses.
+* `MEDIA_ROOT` is used only for temporary file processing.
+* Django’s security middleware is fully enabled.
 
 ---
 
@@ -68,4 +75,4 @@ MIT License.
 
 ---
 
-**Keep it simple. Upload, convert, download.**
+**Keep it simple. Upload, convert, download — securely.**
