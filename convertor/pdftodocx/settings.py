@@ -3,7 +3,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mpp-oq$jxpn^kbgj+m(2$1-o=m5lm&2)-v_a)b(v&zg(j+jx04'
 DEBUG = False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['pdf-to-docx-cubg.onrender.com']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
