@@ -7,6 +7,7 @@ from pdf2docx import Converter
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from django.apps import apps
+from django.http import FileResponse
 class PdfViewSet(ModelViewSet):
     queryset = Pdf.objects.all()
     serializer_class = PdfSerializer
@@ -25,5 +26,4 @@ class PdfViewSet(ModelViewSet):
         cv = Converter(pdf)
         cv.convert(docx)
         cv.close()
-        docx_url = request.build_absolute_uri(os.path.join(settings.MEDIA_URL,'result.docx'))
-        return Response({"DownloadLink":docx_url},status=HTTP_200_OK)
+        return FileResponse(open(docx,'rb'),content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
