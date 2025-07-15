@@ -1,7 +1,9 @@
 from pathlib import Path
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-mpp-oq$jxpn^kbgj+m(2$1-o=m5lm&2)-v_a)b(v&zg(j+jx04'
+from dotenv import load_dotenv
+load_dotenv()
+SECRET_KEY = os.getenv('DSK')
 DEBUG = False
 ALLOWED_HOSTS = ['pdf-to-docx-cubg.onrender.com']
 INSTALLED_APPS = [
